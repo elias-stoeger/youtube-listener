@@ -41,6 +41,7 @@ class Thread(threading.Thread):
 
 	def replay(self):
 		mixer.music.rewind()
+		mixer.music.play()
 
 def enablePrint():
     sys.stdout = sys.__stdout__

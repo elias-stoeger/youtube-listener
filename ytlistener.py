@@ -59,22 +59,29 @@ def download(search):
 	sn = results[0]["title"]
 	sn = sn.replace("|", "_")
 	sn = sn.replace(":", " -")
+	
+	scout = glob.glob(f"{sn[:-1]}*.wav")
+	
+	if not scout:
+		done = False
+	else:
+		done = True
 
 	link = f"http://www.youtube.com/watch?v={results[0]['id']}"
 
 	print("loading...")
 	blockPrint()
-
+	
 	ydl_opts = {
 		'format': 'bestaudio/best',
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
-			'preferredcodec': 'mp3',
+			'preferredcodec': 'wav',
 			'preferredquality': '192',
 		}],
 	}
 
-	done = False
+
 	while not done:
 		try:
 			with youtube_dl.YoutubeDL(ydl_opts) as ydl:
@@ -83,7 +90,7 @@ def download(search):
 		except:
 			done = False
 
-	song = glob.glob(f"{sn[:-1]}*.mp3")[0]
+	song = glob.glob(f"{sn[:-1]}*.wav")[0]
 	
 	
 	enablePrint()
@@ -145,8 +152,3 @@ while inp not in end:
 		print("")
 	elif inp not in end:
 		print("Command not recognized")
-			
-
-trash = glob.glob("*.mp3")
-for file in trash:
-	os.remove(file)
